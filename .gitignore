@@ -3,7 +3,7 @@ node_modules
 #/dist
 
 # sensitive info
-config/config.js
+config
 
 # local env files
 .env.local
