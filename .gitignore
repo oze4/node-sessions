@@ -1,9 +1,9 @@
 .DS_Store
 node_modules
-/dist
+#/dist
 
 # sensitive info
-/config
+config/config.js
 
 # local env files
 .env.local
