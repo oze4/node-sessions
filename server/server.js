@@ -1,7 +1,6 @@
-const app = require('./app.js');
+const app = require('./app.js.js');
 
 
-// start the express server
 app.listen(app.get('port'), () => { 
     console.log(`App started on port ${app.get('port')}`) 
 });

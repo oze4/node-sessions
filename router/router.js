@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-const config = require('./config/config.js');
+const config = require('../config/config.js');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const middleware = require('./utils/middleware.js');
+const middleware = require('../utils/middleware.js');
 
 
 router.use(session({

@@ -1,12 +1,12 @@
 const express = require('express');
 const app = express();
-const config = require('./config/config.js');
-const middleware = require('./utils/middleware.js');
+const config = require('../config/config.js');
+const middleware = require('../utils/middleware.js');
 const session = require('express-session');
 const morgan = require('morgan');
 
-const UserController = require('./controllers/user.controller.js');
-const HomeController = require('./controllers/home.controller.js');
+const UserController = require('../controllers/user.controller.js');
+const HomeController = require('../controllers/home.controller.js');
 
 
 // set up main routes

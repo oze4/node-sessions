@@ -4,7 +4,7 @@
 
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const mongoConnection = require('../db.js');
+const mongoConnection = require('../database/db.js');
 const usersDatabase = mongoConnection.useDb('Users');
 
 
