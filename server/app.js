@@ -1,14 +1,18 @@
 const express = require('express');
 const app = express();
-const config = require('../utils/config.js');
-const middleware = require('../utils/middleware.js');
-const session = require('express-session');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
-const UserController = require('../controllers/user.controller.js');
+// utils
+const config = require('../utils/config.js');
+const middleware = require('../utils/middleware.js');
+const session = require('../utils/session.js');
+
+// controllers/routes
 const HomeController = require('../controllers/home.controller.js');
+const UserController = require('../controllers/user.controller.js');
+
 
 
 
@@ -20,27 +24,19 @@ app.set('port', config.port);
 app.use(morgan('dev'));
 
 
-// initialize body-parser to parse incoming parameters requests to req.body
+// allows us to easily parse the request body
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-// initialize cookie-parser to allow us access the cookies stored in the browser. 
+// allow us to easily parse session cookies
 app.use(cookieParser());
 
 
-// initialize express-session to allow us track the logged-in user across sessions.
-app.use(session({
-    key: 'user_sid',
-    secret: config.secret,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        expires: 600000
-    }
-}));
+// allows us to track logged in user across sessions
+app.use(session);
 
 
-// cookie checker middleware
+// helps keep session cookie clean
 app.use(middleware.cookieChecker);
 
 
@@ -49,8 +45,10 @@ app.use('/', HomeController)
 app.use('/', UserController);
 
 
-// route not found middleware
+// 404 middleware
 app.use(middleware.routeNotFound);
+
+
 
 
 module.exports = app;
