@@ -1,13 +1,7 @@
-/**
- * Sets up our User model and database connection
- */
-
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const mongoConnection = require('../database/db.js');
 const usersDatabase = mongoConnection.useDb('Users');
-
-
 
 
 const User = new mongoose.Schema({
@@ -43,4 +37,5 @@ User.methods.validPassword = function (password) {
 
 
 
-module.exports = usersDatabase.model('Users', User, 'users');
+
+module.exports = usersDatabase.model('Users', User, 'users'); // (database, schema, collection)
