@@ -16,6 +16,10 @@ const UserController = require('../controllers/user.controller.js');
 
 
 
+// set view engine for templating
+app.set('view engine', 'ejs');
+
+
 // set app port
 app.set('port', config.port);
 

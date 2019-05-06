@@ -42,7 +42,7 @@ router.get('/logout', (req, res) => {
 router.get('/dashboard', (req, res) => {
     try {
         if (req.session.user && req.cookies.user_sid) {
-            res.sendFile(path.resolve(__dirname, '../views/dashboard.html'));
+            res.render('../views/dashboard.ejs', { user: req.session.user });
         } else {
             res.redirect('/login');
         }
