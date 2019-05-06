@@ -40,7 +40,7 @@ app.use(session({
 }));
 
 
-// cookie checker app middleware
+// cookie checker middleware
 app.use(middleware.cookieChecker);
 
 
