@@ -4,7 +4,8 @@
   "description": "Testing sessions vs JWT in Node",
   "main": "./server/server.js",
   "scripts": {
-    "test": "echo \"Passed\""
+    "test": "echo \"Passed\"",
+    "start": "node ./server/server.js"
   },
   "author": "matt oestreich",
   "license": "GPL-3.0-or-later",
