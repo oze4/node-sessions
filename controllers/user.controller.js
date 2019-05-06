@@ -1,29 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-const config = require('../config/config.js');
+const config = require('../utils/config.js');
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
 const middleware = require('../utils/middleware.js');
 const path = require('path');
-
 
 const User = require('../models/user.js');
 
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(cookieParser());
-
-router.use(session({
-    key: 'user_sid',
-    secret: config.secret,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        expires: 600 //600000
-    }
-}));
-
 
 
 
@@ -73,7 +60,7 @@ router.post('/signup', (req, res) => {
         password: req.body.password
     })
         .then(user => {
-            req.session.user = user.dataValues;
+            req.session.user = user;
             res.redirect('/dashboard');
         })
         .catch(error => {
@@ -87,7 +74,6 @@ router.post('/login', (req, res) => {
     const password = req.body.password;
 
     User.findOne({ username: username }, (err, user) => {
-        //const user = foundUser;
         if (!user) {
             res.redirect('/login');
         } else if (!user.validPassword(password)) {

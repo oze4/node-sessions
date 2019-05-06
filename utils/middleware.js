@@ -3,9 +3,7 @@ module.exports = {
 
     // middleware function to check for logged-in users
     sessionChecker: function (req, res, next) {
-        console.log("\r\n\r\nSESSION_CHECKER");
-        console.log(req);
-        console.log("\r\n\r\n");
+        console.log("\r\n\r\nSESSION_CHECKER\r\n");
         try {
             if (req.session.user && req.cookies.user_sid) {
                 res.redirect('/dashboard');

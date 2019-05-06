@@ -1,25 +1,17 @@
 const express = require('express');
 const router = express.Router();
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const middleware = require('../utils/middleware.js');
-const session = require('express-session');
-const config = require('../config/config.js')
 
 
-router.use(session({
-    key: 'user_sid',
-    secret: config.secret,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        expires: 600 //600000
-    }
-}));
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(cookieParser());
+
 
 router.get('/', middleware.sessionChecker, (req, res) => {
     res.redirect('/login');
 });
-
-
 
 
 module.exports = router;
