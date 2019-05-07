@@ -3,9 +3,14 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const middleware = require('../utils/middleware.js');
+const {
+    sessionStore
+} = require('../utils/session.js');
 const path = require('path');
 
-router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.urlencoded({
+    extended: true
+}));
 router.use(cookieParser());
 
 // database model
@@ -21,7 +26,8 @@ router.get('/signup', middleware.sessionChecker, (req, res) => {
 
 
 router.get('/login', middleware.sessionChecker, (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../views/login.html'));
+    //res.sendFile(path.resolve(__dirname, '../views/login.html'));
+    res.render('../views/login.ejs');
 })
 
 
@@ -40,15 +46,35 @@ router.get('/logout', (req, res) => {
 
 
 router.get('/dashboard', (req, res) => {
+    sessionStore.get(req.session.id, (err, sesh) => {
+        try {
+            if (sesh) {
+                console.log("SESH:")
+                x = sesh;
+                res.render('../views/dashboard.ejs', {
+                    user: sesh
+                });
+            } else {                
+                //res.redirect('/login');
+                res.redirect('/else')
+            }
+        } catch {
+            res.redirect('/err')
+        }
+    });
+    /*
     try {
         if (req.session.user && req.cookies.user_sid) {
             res.render('../views/dashboard.ejs', { user: req.session.user });
         } else {
+            console.log('else');
             res.redirect('/login');
         }
     } catch (err) {
+        console.log(err)
         res.redirect('/login');
     }
+    */
 });
 // end GET REQUESTS --------------------------------------------
 
@@ -58,10 +84,10 @@ router.get('/dashboard', (req, res) => {
 // POST REQUESTS -----------------------------------------------
 router.post('/signup', (req, res) => {
     User.create({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
-    })
+            username: req.body.username,
+            email: req.body.email,
+            password: req.body.password
+        })
         .then(user => {
             req.session.user = user;
             res.redirect('/dashboard');
@@ -76,14 +102,19 @@ router.post('/login', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    User.findOne({ username: username }, (err, user) => {
+    User.findOne({
+        username: username
+    }, (err, user) => {
+        if(err){
+            res.render('../views/login.ejs', { err: err })
+        }
         if (!user) {
-            res.redirect('/login');
+            res.render('../views/login.ejs', { err: "User Not Found!" })
         } else if (!user.validPassword(password)) {
-            res.redirect('/login');
+            res.render('../views/login.ejs', { err: "Invalid Password!" })
         } else {
-            req.session.user = user;
-            res.redirect('/dashboard');
+            req.session.user = user;  
+            res.redirect('/dashboard');               
         }
     });
 })

@@ -37,7 +37,7 @@ app.use(cookieParser());
 
 
 // allows us to track logged in user across sessions
-app.use(session);
+app.use(session.sessionConfig);
 
 
 // helps keep session cookie clean
