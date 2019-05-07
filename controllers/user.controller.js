@@ -105,16 +105,12 @@ router.post('/login', (req, res) => {
     User.findOne({
         username: username
     }, (err, user) => {
-        if(err){
-            res.render('../views/login.ejs', { err: err })
-        }
-        if (!user) {
-            res.render('../views/login.ejs', { err: "User Not Found!" })
-        } else if (!user.validPassword(password)) {
-            res.render('../views/login.ejs', { err: "Invalid Password!" })
-        } else {
+        if(err) res.render('../views/login.ejs', { err: err })
+        else if (!user) res.render('../views/login.ejs', { err: "User Not Found!" })
+        else if (!user.validPassword(password)) res.render('../views/login.ejs', { err: "Invalid Password!" })
+        else { 
             req.session.user = user;  
-            res.redirect('/dashboard');               
+            res.redirect('/dashboard');        
         }
     });
 })
