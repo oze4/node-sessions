@@ -38,7 +38,7 @@ router.get('/dashboard', (req, res) => {
     sessionStore.get(req.session.id).then((sesh) => {
         res.render('../views/dashboard.ejs', { user: sesh.user });
     }).catch((err) => {
-        res.render('../views/login.ejs', { err: err });
+        res.redirect('/login');
     })
 });
 // end GET REQUESTS --------------------------------------------
