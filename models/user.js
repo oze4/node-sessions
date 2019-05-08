@@ -26,7 +26,7 @@ const User = new mongoose.Schema({
 
 // salt password before saving
 User.pre('save', function (next) {
-    const salt = bcrypt.genSaltSync(13);
+    const salt = bcrypt.genSaltSync(11);
     this.password = bcrypt.hashSync(this.password, salt);
     next();
 })
