@@ -21,60 +21,30 @@ const User = require('../models/user.js');
 
 // GET REQUESTS ------------------------------------------------
 router.get('/signup', middleware.sessionChecker, (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../views/signup.html'));
+    res.render('../views/signup.ejs');
 });
 
 
 router.get('/login', middleware.sessionChecker, (req, res) => {
-    //res.sendFile(path.resolve(__dirname, '../views/login.html'));
     res.render('../views/login.ejs');
 })
 
 
 router.get('/logout', (req, res) => {
-    try {
-        if (req.session.user && req.cookies.user_sid) {
-            res.clearCookie('user_sid');
-            res.redirect('/');
-        } else {
-            res.redirect('/login');
-        }
-    } catch {
+    sessionStore.destroy(req.session.id).then(() => {
         res.redirect('/login');
-    }
+    }).catch((err) => {
+        res.render('../views/login.ejs', { err: err })
+    })
 })
 
 
 router.get('/dashboard', (req, res) => {
-    sessionStore.get(req.session.id, (err, sesh) => {
-        try {
-            if (sesh) {
-                console.log("SESH:")
-                x = sesh;
-                res.render('../views/dashboard.ejs', {
-                    user: sesh
-                });
-            } else {                
-                //res.redirect('/login');
-                res.redirect('/else')
-            }
-        } catch {
-            res.redirect('/err')
-        }
-    });
-    /*
-    try {
-        if (req.session.user && req.cookies.user_sid) {
-            res.render('../views/dashboard.ejs', { user: req.session.user });
-        } else {
-            console.log('else');
-            res.redirect('/login');
-        }
-    } catch (err) {
-        console.log(err)
-        res.redirect('/login');
-    }
-    */
+    sessionStore.get(req.session.id).then((sesh) => {
+        res.render('../views/dashboard.ejs', { user: sesh.user });
+    }).catch((err) => {
+        res.render('../views/login.ejs', { err: err });
+    })
 });
 // end GET REQUESTS --------------------------------------------
 
@@ -84,17 +54,15 @@ router.get('/dashboard', (req, res) => {
 // POST REQUESTS -----------------------------------------------
 router.post('/signup', (req, res) => {
     User.create({
-            username: req.body.username,
-            email: req.body.email,
-            password: req.body.password
-        })
-        .then(user => {
-            req.session.user = user;
-            res.redirect('/dashboard');
-        })
-        .catch(error => {
-            res.redirect('/signup');
-        });
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password
+    }).then(user => {
+        req.session.user = user;
+        res.redirect('/dashboard');
+    }).catch(error => {
+        res.render('../views/signup.ejs', { err: error })
+    });
 })
 
 
@@ -102,17 +70,20 @@ router.post('/login', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    User.findOne({
-        username: username
-    }, (err, user) => {
-        if(err) res.render('../views/login.ejs', { err: err })
-        else if (!user) res.render('../views/login.ejs', { err: "User Not Found!" })
-        else if (!user.validPassword(password)) res.render('../views/login.ejs', { err: "Invalid Password!" })
-        else { 
-            req.session.user = user;  
-            res.redirect('/dashboard');        
+    User.findOne({ username: username }, (err, user) => {
+        if (err) {
+            res.render('../views/login.ejs', { err: err });
+        } else if (user) {
+            if (user.validPassword(password)) {
+                req.session.user = user;
+                res.redirect('/dashboard');
+            } else {
+                res.render('../views/login.ejs', { err: "Username or Password invalid!" });
+            }
+        } else {
+            res.render('../views/login.ejs', { err: "Username or Password not valid!" });
         }
-    });
+    })
 })
 //end POST REQUESTS ------------------------------------------
 

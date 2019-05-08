@@ -1,19 +1,18 @@
-module.exports = {
-    
+const { sessionStore } = require('./session.js');
+
+
+const middleware = {
+
     sessionChecker: function (req, res, next) {
-        try {
-            if (req.session.user && req.cookies.user_sid) {
-                res.redirect('/dashboard');
-            } else {
-                next();
-            }
-        } catch (err) {
+        sessionStore.get(req.session.id).then((sesh) => {
+            sesh ? res.redirect('/dashboard') : next();
+        }).catch(() => {
             next();
-        }
+        })
     },
 
     cookieChecker: function (req, res, next) {
-        try { 
+        try {
             if (req.cookies.user_sid && !req.session.user) {
                 res.clearCookie('user_sid');
             }
@@ -28,3 +27,7 @@ module.exports = {
     },
 
 }
+
+
+
+module.exports = middleware;
