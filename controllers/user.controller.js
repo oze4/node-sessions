@@ -3,14 +3,9 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const middleware = require('../utils/middleware.js');
-const {
-    sessionStore
-} = require('../utils/session.js');
-const path = require('path');
+const { sessionStore } = require('../utils/session.js');
 
-router.use(bodyParser.urlencoded({
-    extended: true
-}));
+router.use(bodyParser.urlencoded({ extended: true }));
 router.use(cookieParser());
 
 // database model
