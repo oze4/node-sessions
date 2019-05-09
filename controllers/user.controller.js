@@ -38,15 +38,7 @@ router.get('/dashboard', (req, res) => {
     sessionStore.get(req.session.id).then((sesh) => {
         res.render('../views/dashboard.hbs', { user: sesh.user });
     }).catch((err) => {
-<<<<<<< Updated upstream
         res.redirect('/login');
-=======
-<<<<<<< HEAD
-        res.render('../views/login.hbs', { err: err });
-=======
-        res.redirect('/login');
->>>>>>> 8029aaf90d88cbcec4039e54a3c3d1e8ab49a10f
->>>>>>> Stashed changes
     })
 });
 // end GET REQUESTS --------------------------------------------
