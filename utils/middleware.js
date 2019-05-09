@@ -6,8 +6,8 @@ const middleware = {
     sessionChecker: function (req, res, next) {
         sessionStore.get(req.session.id).then((sesh) => {
             sesh ? res.redirect('/dashboard') : next();
-        }).catch(() => {
-            next();
+        }).catch((err) => {
+            next(err);
         })
     },
 

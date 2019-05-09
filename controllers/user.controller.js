@@ -16,12 +16,12 @@ const User = require('../models/user.js');
 
 // GET REQUESTS ------------------------------------------------
 router.get('/signup', middleware.sessionChecker, (req, res) => {
-    res.render('../views/signup.ejs');
+    res.render('../views/signup.hbs');
 });
 
 
 router.get('/login', middleware.sessionChecker, (req, res) => {
-    res.render('../views/login.ejs');
+    res.render('../views/login.hbs');
 })
 
 
@@ -29,16 +29,24 @@ router.get('/logout', (req, res) => {
     sessionStore.destroy(req.session.id).then(() => {
         res.redirect('/login');
     }).catch((err) => {
-        res.render('../views/login.ejs', { err: err })
+        res.render('../views/login.hbs', { err: err })
     })
 })
 
 
 router.get('/dashboard', (req, res) => {
     sessionStore.get(req.session.id).then((sesh) => {
-        res.render('../views/dashboard.ejs', { user: sesh.user });
+        res.render('../views/dashboard.hbs', { user: sesh.user });
     }).catch((err) => {
+<<<<<<< Updated upstream
         res.redirect('/login');
+=======
+<<<<<<< HEAD
+        res.render('../views/login.hbs', { err: err });
+=======
+        res.redirect('/login');
+>>>>>>> 8029aaf90d88cbcec4039e54a3c3d1e8ab49a10f
+>>>>>>> Stashed changes
     })
 });
 // end GET REQUESTS --------------------------------------------
@@ -56,7 +64,7 @@ router.post('/signup', (req, res) => {
         req.session.user = user;
         res.redirect('/dashboard');
     }).catch(error => {
-        res.render('../views/signup.ejs', { err: error })
+        res.render('../views/signup.hbs', { err: error })
     });
 })
 
@@ -67,16 +75,16 @@ router.post('/login', (req, res) => {
 
     User.findOne({ username: username }, (err, user) => {
         if (err) {
-            res.render('../views/login.ejs', { err: err });
+            res.render('../views/login.hbs', { err: err });
         } else if (user) {
             if (user.validPassword(password)) {
                 req.session.user = user;
                 res.redirect('/dashboard');
             } else {
-                res.render('../views/login.ejs', { err: "Username or Password invalid!" });
+                res.render('../views/login.hbs', { err: "Username or Password invalid!" });
             }
         } else {
-            res.render('../views/login.ejs', { err: "Username or Password not valid!" });
+            res.render('../views/login.hbs', { err: "Username or Password not valid!" });
         }
     })
 })
