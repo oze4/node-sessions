@@ -1,17 +1,20 @@
 node {
     def app
+    def local_container_name = "node-sessions"
+    def dockerhub_container = "oze4/${local_container_name}"
+    def docker_compose_path = "/srv/traefik/docker-compose/"
 
     stage('Clone Repository') {
         checkout scm
     }
 
     stage('Build Image') {
-        app = docker.build("oze4/node-sessions")
+        app = docker.build("${dockerhub_container}")
     }
 
     stage('Test Image') {
         app.inside {
-            sh 'echo "Tests passed"'
+            sh 'echo "Volkswagen Tests passed"'
         }
     }
 
@@ -22,4 +25,37 @@ node {
         }
     }
 
+    stage ('SSH To Docker Host and Deploy') {
+        sshagent(credentials : ['ost-sf-dckr-00']) {
+            sh '''
+ssh -v root@ost-sf-dckr-00 <<EOF
+echo "--------------------------------"
+echo "---- pulling latest image ------"
+echo "--------------------------------"
+docker pull '''+dockerhub_container+''':latest
+echo "--------------------------------"
+echo "--------------------------------"
+echo "--- stopping existing image ----"
+echo "--------------------------------"
+docker stop '''+local_container_name+'''
+echo "--------------------------------"
+echo "--------------------------------"
+echo "--- removing existing image ----"
+echo "--------------------------------"
+docker rm '''+local_container_name+'''
+echo "--------------------------------"
+echo "--------------------------------"
+echo "------ starting new image ------"
+echo "--------------------------------"
+cd "'''+docker_compose_path+'''"
+docker-compose up -d '''+local_container_name+'''
+echo "--------------------------------"
+echo "--------------------------------"
+echo "----------- DONE ---------------"
+echo "--------------------------------"
+echo "--------------------------------"
+EOF
+'''
+        }
+    }
 }
