@@ -1,16 +1,13 @@
-const express = require('express');
-const router = express.Router();
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const middleware = require('../utils/middleware.js');
+const express          = require('express');
+const router           = express.Router();
+const bodyParser       = require('body-parser');
+const cookieParser     = require('cookie-parser');
+const middleware       = require('../utils/middleware.js');
 const { sessionStore } = require('../utils/session.js');
+const User             = require('../models/user.js');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(cookieParser());
-
-// database model
-const User = require('../models/user.js');
-
 
 
 
@@ -81,7 +78,6 @@ router.post('/login', (req, res) => {
     })
 })
 //end POST REQUESTS ------------------------------------------
-
 
 
 
