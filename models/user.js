@@ -1,9 +1,7 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const mongoose        = require('mongoose');
+const bcrypt          = require('bcrypt');
 const mongoConnection = require('../database/db.js');
-const usersDatabase = mongoConnection.useDb('Users');
-
-
+const usersDatabase   = mongoConnection.useDb('Users');
 
 
 const User = new mongoose.Schema({
@@ -36,8 +34,6 @@ User.pre('save', function (next) {
 User.methods.validPassword = function (password) {
     return bcrypt.compareSync(password, this.password);
 }
-
-
 
 
 module.exports = usersDatabase.model('Users', User, 'users'); // (database, schema, collection)
