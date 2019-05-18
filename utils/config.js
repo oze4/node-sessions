@@ -1,8 +1,12 @@
 let config;
 
+
 try {
+    
     config = require('../config/config.js')
+    
 } catch {
+    
     config = {
         db: {
             connectionString: process.env.MONGO_STRING,
@@ -11,6 +15,7 @@ try {
         secret: process.env.SECRET,
         port: process.env.PORT
     }
+    
 }
 
 
