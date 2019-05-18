@@ -1,13 +1,8 @@
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+const session         = require('express-session');
+const MongoStore      = require('connect-mongo')(session);
 const mongoConnection = require('../database/db.js');
-const sessionDb = mongoConnection.useDb('Users');
-const config = require('../utils/config.js');
-
-const sessionStore = new MongoStore({ 
-    mongooseConnection: sessionDb 
-});
-
+const sessionDb       = mongoConnection.useDb('Users');
+const config          = require('../utils/config.js');
 
 
 const sessionInfo = {
@@ -22,9 +17,10 @@ const sessionInfo = {
         store: sessionStore
     }),
 
-    sessionStore: sessionStore
+    sessionStore: new MongoStore({ 
+        mongooseConnection: sessionDb 
+    });
 }
-
 
 
 module.exports = sessionInfo;
