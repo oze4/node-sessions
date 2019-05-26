@@ -4,6 +4,10 @@ const mongoConnection = require('../database/db.js');
 const sessionDb       = mongoConnection.useDb('Users');
 const config          = require('../utils/config.js');
 
+const sessionStore    = new MongoStore({ 
+    mongooseConnection: sessionDb 
+})
+
 
 const sessionInfo = {
     sessionConfig: session({
@@ -17,9 +21,7 @@ const sessionInfo = {
         store: sessionStore
     }),
 
-    sessionStore: new MongoStore({ 
-        mongooseConnection: sessionDb 
-    })
+    sessionStore: sessionStore
 }
 
 
