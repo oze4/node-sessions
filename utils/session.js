@@ -19,7 +19,7 @@ const sessionInfo = {
 
     sessionStore: new MongoStore({ 
         mongooseConnection: sessionDb 
-    });
+    })
 }
 
 
