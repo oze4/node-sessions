@@ -17,7 +17,6 @@ const sessionInfo = {
         saveUninitialized: false,
         cookie: {
             secure: true,
-            //httpOnly: true,
             expires: 600000 // 10 minutes
         },
         store: sessionStore
