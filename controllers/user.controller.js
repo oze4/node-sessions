@@ -66,6 +66,9 @@ router.post('/login', (req, res) => {
         if (err) {
             res.render('../views/login.hbs', { err: err });
         } else if (user) {
+            console.log("------------ req ------------")
+            console.log(req)
+            console.log("---------- end req ----------")
             if (user.validPassword(password)) {
                 req.session.user = user;
                 res.redirect('/dashboard');

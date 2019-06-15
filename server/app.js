@@ -8,6 +8,7 @@ const middleware     = require('../utils/middleware.js');
 const session        = require('../utils/session.js');
 const HomeController = require('../controllers/home.controller.js');
 const UserController = require('../controllers/user.controller.js');
+const helmet         = require('helmet');
 
 
 
@@ -19,6 +20,9 @@ app.set('port', config.port);
 
 // morgan for logging
 app.use(morgan('dev'));
+
+// secure server headers with helmet
+app.use(helmet());
 
 // allows us to easily parse the request body
 app.use(bodyParser.urlencoded({ extended: true }));
