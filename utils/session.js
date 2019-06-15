@@ -13,12 +13,11 @@ const sessionInfo = {
     sessionConfig: session({
         key: 'user_sid',
         secret: config.secret,
-        resave: false,
+        resave: true,
         saveUninitialized: false,
+        proxy: true,
         cookie: {
-            proxy: true,
             secure: true,
-            resave: true,
             expires: 600000 // 10 minutes
         },
         store: sessionStore

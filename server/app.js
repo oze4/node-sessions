@@ -12,8 +12,8 @@ const helmet         = require('helmet');
 
 
 // tell express we are sitting behind a proxy - this is so we can,
-// still use secure cookies
-app.enable('trust proxy');
+// still use secure cookies. This will trust the first proxy.
+app.enable('trust proxy', 1);
 
 // set view engine for templating
 app.set('view engine', 'hbs')
