@@ -11,6 +11,9 @@ const UserController = require('../controllers/user.controller.js');
 const helmet         = require('helmet');
 
 
+// tell express we are sitting behind a proxy - this is so we can,
+// still use secure cookies
+app.enable('trust proxy');
 
 // set view engine for templating
 app.set('view engine', 'hbs')
@@ -34,7 +37,7 @@ app.use(cookieParser());
 app.use(session.sessionConfig);
 
 // helps keep session cookie clean
-app.use(middleware.cookieChecker);
+// app.use(middleware.cookieChecker);
 
 // set up main routes
 app.use('/', HomeController)
