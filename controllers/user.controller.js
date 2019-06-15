@@ -32,9 +32,9 @@ router.get('/logout', (req, res) => {
 
 
 router.get('/dashboard', (req, res) => {
-    console.log("-------- [dashboard]::req.session ---------")
-    console.log(req.session);
-    console.log("------- end [dashboard]::req.session -------") 
+    console.log("-------- [dashboard]::req.headers ---------")
+    console.log(req.headers);
+    console.log("------- end [dashboard]::req.headers ------") 
     sessionStore.get(req.session.id).then((sesh) => {
         res.render('../views/dashboard.hbs', { user: sesh.user });
     }).catch((err) => {
@@ -69,9 +69,9 @@ router.post('/login', (req, res) => {
         if (err) {
             res.render('../views/login.hbs', { err: err });
         } else if (user) {
-            console.log("------------ req.session ------------")
-            console.log(req)
-            console.log("---------- end req.session ----------")
+            console.log("------------ [/login]::req.headers ------------")
+            console.log(req.headers)
+            console.log("--------------- end req.headers ---------------")
             if (user.validPassword(password)) {
                 req.session.user = user;
                 res.redirect('/dashboard');
