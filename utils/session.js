@@ -16,6 +16,9 @@ const sessionInfo = {
         resave: false,
         saveUninitialized: false,
         cookie: {
+            proxy: true,
+            secure: true,
+            resave: true,
             expires: 600000 // 10 minutes
         },
         store: sessionStore
