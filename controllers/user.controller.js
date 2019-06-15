@@ -34,7 +34,7 @@ router.get('/logout', (req, res) => {
 router.get('/dashboard', (req, res) => {
     console.log("-------- [dashboard]::req.session ---------")
     console.log(req.session);
-    console.log("------- end [dashboard]::req.session -------")
+    console.log("------- end [dashboard]::req.session -------") 
     sessionStore.get(req.session.id).then((sesh) => {
         res.render('../views/dashboard.hbs', { user: sesh.user });
     }).catch((err) => {
