@@ -25,7 +25,7 @@ app.set('port', config.port);
 app.use(morgan('dev'));
 
 // secure server headers with helmet
-app.use(helmet());
+//app.use(helmet());
 
 // allows us to easily parse the request body
 app.use(bodyParser.urlencoded({ extended: true }));
