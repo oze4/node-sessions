@@ -18,12 +18,17 @@ router.get('/signup', middleware.sessionChecker, (req, res) => {
 
 
 router.get('/login', middleware.sessionChecker, (req, res) => {
-    res.render('../views/login.hbs');
+    if(req.flash){
+        res.render('../views/login.hbs', { err: req.flash('info') });
+    } else {
+        res.render('../views/login.hbs');
+    }
 })
 
 
 router.get('/logout', (req, res) => {
     sessionStore.destroy(req.session.id).then(() => {
+        req.flash('info', 'Successfully logged out');
         res.redirect('/login');
     }).catch((err) => {
         res.render('../views/login.hbs', { err: err })
