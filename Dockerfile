@@ -16,6 +16,7 @@ COPY package*.json ./
 RUN apt-get update
 RUN apt-get install -y build-essential
 RUN apt-get install -y python
+RUN apt-get install -y iputils-ping
 RUN npm install
 
 COPY . .
