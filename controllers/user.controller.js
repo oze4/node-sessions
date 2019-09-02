@@ -17,12 +17,13 @@ router.get('/signup', middleware.sessionChecker, (req, res) => {
 });
 
 
-router.get('/login', middleware.sessionChecker, (req, res) => {
+router.get('/login/:loggedout', middleware.sessionChecker, (req, res) => {
     console.log("req.params", req.params);
-    res.render('../views/login.hbs');
+    res.render('../views/login.hbs', { err: req.params.loggedout });
 })
 
-router.get('/login/:loggedout', middleware.sessionChecker, (req, res) => {
+
+router.get('/login', middleware.sessionChecker, (req, res) => {
     console.log("req.params", req.params);
     res.render('../views/login.hbs');
 })
