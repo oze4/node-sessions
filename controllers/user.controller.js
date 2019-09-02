@@ -17,20 +17,14 @@ router.get('/signup', middleware.sessionChecker, (req, res) => {
 });
 
 
-router.get('/login/:loggedout', middleware.sessionChecker, (req, res) => {
-    console.log("/login/:loggedout-------------------------");
-    console.log("req.params", req.params);
-    console.log("req.query", req.query);
-    console.log("------------------------------------------");
-    res.render('../views/login.hbs');
-})
-
 router.get('/login', middleware.sessionChecker, (req, res) => {
-    console.log("/login------------------------------------");
-    console.log("req.params", req.params);
-    console.log("req.query", req.query);
-    console.log("------------------------------------------");
-    res.render('../views/login.hbs');
+    if(req.query && req.query.loggedout === "1") {
+        res.render('../views/login.hbs', {
+            loggedout: "Successfully logged out!"
+        });
+    } else {
+        res.render('../views/login.hbs');
+    }
 })
 
 

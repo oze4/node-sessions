@@ -33,6 +33,11 @@
         <p>{{err}}</p>
     </div>
     {{/if}}
+    {{#if loggedout}}
+    <div class="alert-success">
+        <p>{{loggedout}}</p>
+    </div>
+    {{/if}}
     <div class="container row">
         <div class="jumbotron col-sm-4 pull-center">
             <form action="/login" method="post">
