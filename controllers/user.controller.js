@@ -34,6 +34,7 @@ router.get('/logout', (req, res) => {
     console.log("req.session.id", req.session.id);
     console.log("====================================")
     sessionStore.destroy(req.session.id).then(() => {
+        req.session = null;
         setTimeout(() => {
             res.redirect('/login?loggedout=1');
         }, 10000);
