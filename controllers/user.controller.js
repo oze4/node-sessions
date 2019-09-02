@@ -17,7 +17,7 @@ router.get('/signup', middleware.sessionChecker, (req, res) => {
 });
 
 
-router.get('/login', middleware.sessionChecker, (req, res) => {
+router.get('/login/:loggedout', middleware.sessionChecker, (req, res) => {
     console.log("------------------------------------------");
     console.log(req.params);
     console.log("------------------------------------------");
@@ -26,9 +26,6 @@ router.get('/login', middleware.sessionChecker, (req, res) => {
 
 
 router.get('/logout', (req, res) => {
-    console.log("====================================")
-    console.log("req.session.id", req.session.id);
-    console.log("====================================")
     sessionStore.destroy(req.session.id).then(() => {
         req.session = null; // have to set req.session to null
         res.redirect('/login?loggedout=1');
