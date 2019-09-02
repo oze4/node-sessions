@@ -30,6 +30,9 @@ router.get('/login', middleware.sessionChecker, (req, res) => {
 
 
 router.get('/logout', (req, res) => {
+    console.log("====================================")
+    console.log("req.session.id", req.session.id);
+    console.log("====================================")
     sessionStore.destroy(req.session.id).then(() => {
         res.redirect('/login?loggedout=1');
     }).catch((err) => {
