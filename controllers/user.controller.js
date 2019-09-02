@@ -17,14 +17,10 @@ router.get('/signup', middleware.sessionChecker, (req, res) => {
 });
 
 
-router.get('/login/:loggedout', middleware.sessionChecker, (req, res) => {
-    console.log("req.params", req.params);
-    res.render('../views/login.hbs', { err: req.params.loggedout });
-})
-
-
 router.get('/login', middleware.sessionChecker, (req, res) => {
-    console.log("req.params", req.params);
+    console.log("------------------------------------------");
+    console.log(req.params);
+    console.log("------------------------------------------");
     res.render('../views/login.hbs');
 })
 
@@ -34,10 +30,8 @@ router.get('/logout', (req, res) => {
     console.log("req.session.id", req.session.id);
     console.log("====================================")
     sessionStore.destroy(req.session.id).then(() => {
-        req.session = null;
-        setTimeout(() => {
-            res.redirect('/login?loggedout=1');
-        }, 10000);
+        req.session = null; // have to set req.session to null
+        res.redirect('/login?loggedout=1');
     }).catch((err) => {
         res.render('../views/login.hbs', { err: err })
     })
