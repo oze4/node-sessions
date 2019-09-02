@@ -22,10 +22,15 @@ router.get('/login', middleware.sessionChecker, (req, res) => {
     res.render('../views/login.hbs');
 })
 
+router.get('/login/:loggedout', middleware.sessionChecker, (req, res) => {
+    console.log("req.params", req.params);
+    res.render('../views/login.hbs');
+})
+
 
 router.get('/logout', (req, res) => {
     sessionStore.destroy(req.session.id).then(() => {
-        res.redirect('/login?0=0');
+        res.redirect('/login?loggedout=1');
     }).catch((err) => {
         res.render('../views/login.hbs', { err: err })
     })
