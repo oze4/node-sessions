@@ -18,7 +18,7 @@ router.get('/signup', middleware.sessionChecker, (req, res) => {
 
 
 router.get('/login', middleware.sessionChecker, (req, res) => {
-    console.log(req.params);
+    console.log("req.params", req.params);
     res.render('../views/login.hbs');
 })
 
