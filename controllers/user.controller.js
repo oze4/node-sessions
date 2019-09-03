@@ -18,7 +18,6 @@ router.get('/signup', middleware.sessionChecker, (req, res) => {
 
 
 router.get('/login', [middleware.sessionChecker, middleware.logHeaders], (req, res) => {
-    console.log(res.headers);
     if(req.headers['referer'] === "https://nodesessions.ostrike.com/logout") {
         res.render('../views/login.hbs', {
             loggedout: "Successfully logged out!"
