@@ -27,9 +27,9 @@ const middleware = {
     },
 
     logHeaders: (req, res, next) => {
-        console.log("-------- [dashboard]::req.headers ---------")
+        console.log("-------- req.headers ---------")
         console.log(req.headers);
-        console.log("------- end [dashboard]::req.headers ------") 
+        console.log("------- end req.headers ------") 
         next();
     }
 
