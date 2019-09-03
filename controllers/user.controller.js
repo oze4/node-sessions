@@ -31,7 +31,7 @@ router.get('/login', [middleware.sessionChecker, middleware.logHeaders], (req, r
 router.get('/logout', middleware.logHeaders, (req, res) => {
     sessionStore.destroy(req.session.id).then(() => {
         req.session = null; // have to set req.session to null
-        req.set({'x-logged-out': "1"});
+        res.set({'x-logged-out': "1"});
         res.redirect('/login');
     }).catch((err) => {
         res.render('../views/login.hbs', { err: err })
