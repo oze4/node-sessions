@@ -18,7 +18,11 @@ router.get('/signup', middleware.sessionChecker, (req, res) => {
 
 
 router.get('/login', middleware.sessionChecker, (req, res) => {
-    if(req.query && req.query.loggedout === "1") {
+    if(
+        req.headers['x-logged-out'] === "1" && 
+        req.query && 
+        req.query.loggedout === "1"
+    ) {
         res.render('../views/login.hbs', {
             loggedout: "Successfully logged out!"
         });
@@ -31,6 +35,7 @@ router.get('/login', middleware.sessionChecker, (req, res) => {
 router.get('/logout', (req, res) => {
     sessionStore.destroy(req.session.id).then(() => {
         req.session = null; // have to set req.session to null
+        req.header('x-logged-out', "1");
         res.redirect('/login?loggedout=1');
     }).catch((err) => {
         res.render('../views/login.hbs', { err: err })
