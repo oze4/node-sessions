@@ -26,6 +26,13 @@ const middleware = {
         res.status(404).send("Sorry can't find that!")
     },
 
+    logHeaders: (req, res, next) => {
+        console.log("-------- [dashboard]::req.headers ---------")
+        console.log(req.headers);
+        console.log("------- end [dashboard]::req.headers ------") 
+        next();
+    }
+
 }
 
 

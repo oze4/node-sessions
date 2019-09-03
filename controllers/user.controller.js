@@ -17,7 +17,7 @@ router.get('/signup', middleware.sessionChecker, (req, res) => {
 });
 
 
-router.get('/login', middleware.sessionChecker, (req, res) => {
+router.get('/login', [middleware.sessionChecker, middleware.logHeaders], (req, res) => {
     if(req.headers['x-logged-out'] === "1") {
         res.render('../views/login.hbs', {
             loggedout: "Successfully logged out!"
@@ -28,7 +28,7 @@ router.get('/login', middleware.sessionChecker, (req, res) => {
 })
 
 
-router.get('/logout', (req, res) => {
+router.get('/logout', middleware.logHeaders, (req, res) => {
     sessionStore.destroy(req.session.id).then(() => {
         req.session = null; // have to set req.session to null
         req.header('x-logged-out', "1");
@@ -39,10 +39,8 @@ router.get('/logout', (req, res) => {
 })
 
 
-router.get('/dashboard', (req, res) => {
-    console.log("-------- [dashboard]::req.headers ---------")
-    console.log(req.headers);
-    console.log("------- end [dashboard]::req.headers ------") 
+router.get('/dashboard', middleware.logHeaders, (req, res) => {
+
     sessionStore.get(req.session.id).then((sesh) => {
         res.render('../views/dashboard.hbs', { user: sesh.user });
     }).catch((err) => {
@@ -69,7 +67,7 @@ router.post('/signup', (req, res) => {
 })
 
 
-router.post('/login', (req, res) => {
+router.post('/login', middleware.logHeaders, (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
@@ -77,9 +75,6 @@ router.post('/login', (req, res) => {
         if (err) {
             res.render('../views/login.hbs', { err: err });
         } else if (user) {
-            console.log("------------ [/login]::req.headers ------------")
-            console.log(req.headers)
-            console.log("--------------- end req.headers ---------------")
             if (user.validPassword(password)) {
                 req.session.user = user;
                 res.redirect('/dashboard');
