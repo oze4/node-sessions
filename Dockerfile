@@ -19,7 +19,8 @@ RUN apt-get install -y python
 #RUN apt-get install -y iputils-ping
 RUN npm install
 
-COPY . .
+#COPY . .
+COPY . /app
 
 EXPOSE ${PORT}
 CMD ["npm", "start"]
